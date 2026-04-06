@@ -1,17 +1,6 @@
 import json
 import os
 
-QUIZ_FILE = "quizzes.json"
-
-def load_quizzes():
-    if not os.path.exists(QUIZ_FILE):
-        return []
-    with open(QUIZ_FILE, "r", encoding="utf-8") as f:
-        data = json.load(f)
-    return [Quiz(q["question"], q["answer"]) for q in data]
-
-quiz_list = load_quizzes()  
-
 class Menu:
     def __init__(self, startquiz, addquiz, quizlist, scorecheck, quit):
         self.startquiz = startquiz
@@ -25,6 +14,7 @@ class Quiz:
         self.question = question
         self.answer = answer
 
+
 # 퀴즈 프로그램 시작
 print("퀴즈 프로그램을 시작합니다. 메뉴를 골라주세요.")
 user_input = input("1. 퀴즈 시작 2. 퀴즈 추가 3. 퀴즈 목록 4. 점수 확인 5. 종료\n선택(숫자입력): ")   
@@ -36,6 +26,17 @@ menu = Menu(
     scorecheck=user_input == "4",
     quit=user_input == "5"
 )
+
+QUIZ_FILE = "data.json"
+
+def load_quizzes():
+    if not os.path.exists(QUIZ_FILE):
+        return []
+    with open(QUIZ_FILE, "r", encoding="utf-8") as f:
+        data = json.load(f)
+    return [Quiz(q["question"], q["answer"]) for q in data]
+
+quiz_list = load_quizzes()  
 
 #1. 퀴즈 시작
 if menu.startquiz:
