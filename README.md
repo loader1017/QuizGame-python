@@ -43,3 +43,7 @@
 마지막 점수 확인
 
 <img width="615" height="96" alt="image" src="https://github.com/user-attachments/assets/f92e2445-ba47-4c51-be30-f07cc2980cf9" />
+
+
+브렌치 그래프
+<img width="599" height="253" alt="image" src="https://github.com/user-attachments/assets/2309a2ca-1591-42be-8d71-0211e2dde4c6" />
