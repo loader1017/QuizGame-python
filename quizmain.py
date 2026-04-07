@@ -31,9 +31,29 @@ def load_score():
 #퀴즈 데이터가 없을 때 사용할 기본 퀴즈 데이터
 SAVE_QUIZ = [
     {
-        "question": "파이썬은 어떤 프로그래밍 패러다임을 지원하나요?",
-        "options": ["절차지향", "객체지향", "함수형", "모두 지원"],
+        "question": "고양이의 특징이 아닌것을 고르세요.",
+        "options": ["유연하다", "잠이 많다.", "비 영역 동물이다.", "영역 동물이다."],
+        "answer": "3"
+    },
+    {
+        "question": "집고양이의 평균 수명을 고르세요.",
+        "options": ["1년", "5년", "10년", "15년"],
         "answer": "4"
+    },
+    {
+        "question": "고양이는 몇 개의 발가락을 가지고 있나요?",
+        "options": ["4개", "5개", "6개", "7개"],
+        "answer": "2"
+    },
+    {
+        "question": "고양이는 하루 평균 몇시간을 잠으로 보내나요?",
+        "options": ["1~2시간", "3~4시간", "6~8시간", "12시간~16시간"],
+        "answer": "4"
+    },
+    {
+        "question": "고양이는 어떤 동물인가요?",
+        "options": ["어류", "포유류", "조류", "파충류"],
+        "answer": "2"
     },
 ]
 
@@ -128,7 +148,8 @@ try:
             print("퀴즈 프로그램을 종료합니다.")
             break
 
-except KeyboardInterrupt:  # Ctrl+C 눌렀을 때
+except KeyboardInterrupt:  # 강종할때
     print("\n프로그램을 종료합니다.")
-except EOFError:  # 입력 스트림이 끊겼을 때
+
+except EOFError:  # 입력끊겼을때
     print("\n입력이 종료되어 프로그램을 종료합니다.")
