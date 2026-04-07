@@ -32,19 +32,22 @@
 지금 읽고있는 이거입니다.
 
 ## 미리보기
-퀴즈 시작하기
+퀴즈게임 메뉴, 시작하기
 
-<img width="636" height="401" alt="image" src="https://github.com/user-attachments/assets/ac51128d-2195-461b-819d-7f240ebb2a3c" />
+<img width="547" height="196" alt="image" src="https://github.com/user-attachments/assets/a404c2ab-3e91-4217-bfc0-0c96002e2c5d" />
+
 
 퀴즈 추가, 저장된 퀴즈 확인
 
-<img width="685" height="304" alt="image" src="https://github.com/user-attachments/assets/793b1233-fa1c-4b7b-abd4-61a9785a3ab5" />
+<img width="487" height="485" alt="image" src="https://github.com/user-attachments/assets/9759868b-9054-4158-8089-f34e8840cb6e" />
 
-마지막 점수 확인
+마지막 점수 확인 및 종료
 
-<img width="615" height="96" alt="image" src="https://github.com/user-attachments/assets/f92e2445-ba47-4c51-be30-f07cc2980cf9" />
+<img width="459" height="122" alt="image" src="https://github.com/user-attachments/assets/7fd53ac0-da38-4086-82ca-3a80fa45ce29" />
+
 
 
 브렌치 그래프
 
-<img width="599" height="253" alt="image" src="https://github.com/user-attachments/assets/2309a2ca-1591-42be-8d71-0211e2dde4c6" />
+<img width="720" height="284" alt="image" src="https://github.com/user-attachments/assets/a449de4c-90d7-4b0e-a558-3573c43e717f" />
+
