@@ -1,22 +1,72 @@
 [
     {
-        "question": "고양이는 포유류이다.",
-        "answer": "O"
+        "question": "1",
+        "options": [
+            "10시간",
+            "12시간",
+            "15시간",
+            "18시간"
+        ],
+        "answer": "3"
     },
     {
-        "question": "고양이는 유연하다.",
-        "answer": "O"
+        "question": "2",
+        "options": [
+            "10시간",
+            "12시간",
+            "15시간",
+            "18시간"
+        ],
+        "answer": "3"
     },
     {
-        "question": "고양이는 물을 좋아한다.",
-        "answer": "X"
+        "question": "3",
+        "options": [
+            "10시간",
+            "12시간",
+            "15시간",
+            "18시간"
+        ],
+        "answer": "3"
     },
     {
-        "question": "고양이는 강아지보다 잠을 많이 잔다.",
-        "answer": "O"
+        "question": "4",
+        "options": [
+            "10시간",
+            "12시간",
+            "15시간",
+            "18시간"
+        ],
+        "answer": "3"
     },
     {
-        "question": "고양이는 영역동물이 아니다.",
-        "answer": "X"
+        "question": "5",
+        "options": [
+            "10시간",
+            "12시간",
+            "15시간",
+            "18시간"
+        ],
+        "answer": "3"
+    },
+    {
+        "question": "안녕하세요",
+        "options": [
+            "아뇨",
+            "아녀",
+            "어뇨",
+            "네"
+        ],
+        "answer": "4"
+    },
+    {
+        "question": "dkskdkjf",
+        "options": [
+            "fkjkfj",
+            "fjkfjkdfj",
+            "jkfdjdkj",
+            "jfdkjkdf"
+        ],
+        "answer": "3"
     }
 ]
