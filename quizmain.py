@@ -2,7 +2,7 @@ import json
 import os
 import signal
 
-class QUIZGAME:
+class QUIZ_GAME:
     def __init__(self, startquiz, addquiz, quizlist, scorecheck, quit):
         self.startquiz = startquiz
         self.addquiz = addquiz
@@ -85,7 +85,7 @@ try:
         print("퀴즈 프로그램을 시작합니다. 메뉴를 골라주세요.")
         user_input = input("1. 퀴즈 시작 2. 퀴즈 추가 3. 퀴즈 목록 4. 점수 확인 5. 종료\n선택(숫자입력): ")   
 
-        menu = QUIZGAME(
+        menu = QUIZ_GAME(
         startquiz=user_input == "1",
         addquiz=user_input == "2",
         quizlist=user_input == "3",
