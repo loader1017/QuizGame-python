@@ -33,10 +33,13 @@
 
 ## 미리보기
 퀴즈 시작하기
+
 <img width="636" height="401" alt="image" src="https://github.com/user-attachments/assets/ac51128d-2195-461b-819d-7f240ebb2a3c" />
 
 퀴즈 추가, 저장된 퀴즈 확인
+
 <img width="685" height="304" alt="image" src="https://github.com/user-attachments/assets/793b1233-fa1c-4b7b-abd4-61a9785a3ab5" />
 
 마지막 점수 확인
+
 <img width="615" height="96" alt="image" src="https://github.com/user-attachments/assets/f92e2445-ba47-4c51-be30-f07cc2980cf9" />
