@@ -74,7 +74,21 @@ if menu.startquiz:
 
 #2. 퀴즈 추가
 elif menu.addquiz:
-    print("퀴즈 추가 기능은 아직 구현되지 않았습니다.")
+    print("새로운 퀴즈를 추가합니다.")
+    question = input("퀴즈 질문을 입력하세요: ")
+    answer = input("정답을 입력하세요 (O/X): ")
+
+    if answer not in ["O", "X"]:
+        print("잘못된 정답 형식입니다. O 또는 X로 입력해주세요.")
+    else:
+        new_quiz = Quiz(question, answer)
+        quiz_list.append(new_quiz)
+
+        # 퀴즈 데이터 저장
+        with open(QUIZ_FILE, "w", encoding="utf-8") as file:
+            json.dump([{"question": q.question, "answer": q.answer} for q in quiz_list], file, ensure_ascii=False, indent=4)
+
+        print("퀴즈가 성공적으로 추가되었습니다.")
 
 #3. 퀴즈 목록
 elif menu.quizlist:
