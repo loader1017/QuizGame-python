@@ -46,4 +46,5 @@
 
 
 브렌치 그래프
+
 <img width="599" height="253" alt="image" src="https://github.com/user-attachments/assets/2309a2ca-1591-42be-8d71-0211e2dde4c6" />
