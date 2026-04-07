@@ -1,7 +1,8 @@
 import json
 import os
+import signal
 
-class Menu:
+class QUIZGAME:
     def __init__(self, startquiz, addquiz, quizlist, scorecheck, quit):
         self.startquiz = startquiz
         self.addquiz = addquiz
@@ -72,19 +73,28 @@ def load_quizzes():
 
 quiz_list = load_quizzes() 
 
+#ctrl + z 방지
+if hasattr(signal, 'SIGTSTP'):
+    signal.signal(signal.SIGTSTP, signal.SIG_IGN)
+
+score = 0
+
 # 퀴즈 프로그램 시작
 try:
     while True:
         print("퀴즈 프로그램을 시작합니다. 메뉴를 골라주세요.")
         user_input = input("1. 퀴즈 시작 2. 퀴즈 추가 3. 퀴즈 목록 4. 점수 확인 5. 종료\n선택(숫자입력): ")   
 
-        menu = Menu(
+        menu = QUIZGAME(
         startquiz=user_input == "1",
         addquiz=user_input == "2",
         quizlist=user_input == "3",
         scorecheck=user_input == "4",
         quit=user_input == "5"
         ) 
+
+        if menu.startquiz:
+            score = 0
 
         #1. 퀴즈시작
         if menu.startquiz:
@@ -148,11 +158,13 @@ try:
             print("퀴즈 프로그램을 종료합니다.")
             break
 
-except KeyboardInterrupt:  # 강종할때
+except KeyboardInterrupt:   # Ctrl+C
     print("\n프로그램을 종료합니다.")
 
-except EOFError:  # 입력끊겼을때
+except EOFError:            # Ctrl+D
     print("\n입력이 종료되어 프로그램을 종료합니다.")
 
 finally:
-    save_score(score, len(quiz_list))
+    # score가 정의됐을 때만 저장
+    if score > 0:
+        save_score(score, len(quiz_list))
