@@ -153,3 +153,6 @@ except KeyboardInterrupt:  # 강종할때
 
 except EOFError:  # 입력끊겼을때
     print("\n입력이 종료되어 프로그램을 종료합니다.")
+
+finally:
+    save_score(score, len(quiz_list))
