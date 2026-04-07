@@ -7,8 +7,8 @@
 초기 퀴즈 내용은 고양이입니다. 귀엽기 때문입니다.
 
 ## 실행 방법
-윈도우에서는 `python quizmain.py`
-혹은 Mac Os 환경에서는 `python3 quizmain.py`
+윈도우에서는 터미널에 `python quizmain.py`
+혹은 Mac Os 환경에서는 터미널에 `python3 quizmain.py`
 입력 시 작동합니다.
 
 ## 기능 목록
