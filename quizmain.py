@@ -10,7 +10,7 @@ class QUIZ_GAME:
         self.scorecheck = scorecheck
         self.quit = quit
 
-class Quiz:
+class QUIZ:
     def __init__(self, question, options, answer):
         self.question = question
         self.options = options
@@ -62,14 +62,14 @@ SAVE_QUIZ = [
 def load_quizzes():
     if not os.path.exists(QUIZ_FILE):
         print("데이터 파일이 없어 기본 퀴즈 데이터를 사용합니다.")
-        return [Quiz(q["question"], q["options"], q["answer"]) for q in SAVE_QUIZ]
+        return [QUIZ(q["question"], q["options"], q["answer"]) for q in SAVE_QUIZ]
     try:
         with open(QUIZ_FILE, "r", encoding="utf-8") as file:
             data = json.load(file)
-        return [Quiz(q["question"], q["options"], q["answer"]) for q in data]
+        return [QUIZ(q["question"], q["options"], q["answer"]) for q in data]
     except json.JSONDecodeError:  # JSON이 깨졌을 때
         print("데이터 파일이 손상되었습니다. 기본 데이터로 초기화합니다.")
-        return [Quiz(q["question"], q["options"], q["answer"]) for q in SAVE_QUIZ]
+        return [QUIZ(q["question"], q["options"], q["answer"]) for q in SAVE_QUIZ]
 
 quiz_list = load_quizzes() 
 
