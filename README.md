@@ -57,4 +57,5 @@ Git clone
 <img width="848" height="120" alt="image" src="https://github.com/user-attachments/assets/14108668-8d07-4ec3-9845-0765c3bde690" />
 
 Git pull
+
 <img width="720" height="77" alt="image" src="https://github.com/user-attachments/assets/f0a6e16e-c1ed-4d6f-a82f-71bccb0e1388" />
