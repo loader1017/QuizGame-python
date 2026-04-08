@@ -33,7 +33,7 @@ def load_score():
 SAVE_QUIZ = [
     {
         "question": "고양이의 특징이 아닌것을 고르세요.",
-        "options": ["유연하다", "잠이 많다.", "비 영역 동물이다.", "영역 동물이다."],
+        "options": ["유연하다", "잠이 많다", "비 영역 동물이다", "영역 동물이다"],
         "answer": "3"
     },
     {
@@ -137,7 +137,7 @@ try:
                     break
                 print("1~4 중에서 입력해주세요.")
 
-            quiz_list.append(Quiz(question, options, answer))
+            quiz_list.append(QUIZ(question, options, answer))
             with open(QUIZ_FILE, "w", encoding="utf-8") as file:
                 json.dump([{"question": q.question, "options": q.options, "answer": q.answer} for q in quiz_list], file, ensure_ascii=False, indent=4)
             print("퀴즈가 추가되었습니다.")
