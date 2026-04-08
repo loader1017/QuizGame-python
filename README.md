@@ -51,3 +51,9 @@
 
 <img width="720" height="284" alt="image" src="https://github.com/user-attachments/assets/a449de4c-90d7-4b0e-a558-3573c43e717f" />
 
+## Git clone,Pull 실습
+Git clone
+
+<img width="848" height="120" alt="image" src="https://github.com/user-attachments/assets/14108668-8d07-4ec3-9845-0765c3bde690" />
+
+Git pull
