@@ -56,6 +56,7 @@ Git clone
 
 <img width="848" height="120" alt="image" src="https://github.com/user-attachments/assets/14108668-8d07-4ec3-9845-0765c3bde690" />
 
-Git pull
+Git pull, push
 
-<img width="720" height="77" alt="image" src="https://github.com/user-attachments/assets/f0a6e16e-c1ed-4d6f-a82f-71bccb0e1388" />
+<img width="586" height="170" alt="image" src="https://github.com/user-attachments/assets/f08ded98-244e-46fc-91c6-133b98b51623" />
+
