@@ -2,32 +2,13 @@ import json
 import os
 import signal
 
-class QUIZ_GAME:
-    def __init__(self, startquiz, addquiz, quizlist, scorecheck, quit):
-        self.startquiz = startquiz
-        self.addquiz = addquiz
-        self.quizlist = quizlist
-        self.scorecheck = scorecheck
-        self.quit = quit
-
 class QUIZ:
     def __init__(self, question, options, answer):
         self.question = question
         self.options = options
         self.answer = answer
 
-QUIZ_FILE = "data.json"
-LSCORE = "score.json"
-
-#점수 데이터 불러오기 및 저장 함수
-def save_score(score, total):
-    with open(LSCORE, "w", encoding="utf-8") as file:
-        json.dump({"last_score": f"{score}/{total}"}, file)
-
-def load_score():
-    with open(LSCORE, "r", encoding="utf-8") as file:
-        data = json.load(file)
-    return data["last_score"]
+QUIZ_FILE = "state.json"  # 퀴즈 데이터 파일
 
 #퀴즈 데이터가 없을 때 사용할 기본 퀴즈 데이터
 SAVE_QUIZ = [
@@ -58,113 +39,131 @@ SAVE_QUIZ = [
     },
 ]
 
-# 퀴즈 데이터 불러오기 함수 (json 깨졌을때 쓸거)
-def load_quizzes():
-    if not os.path.exists(QUIZ_FILE):
-        print("데이터 파일이 없어 기본 퀴즈 데이터를 사용합니다.")
-        return [QUIZ(q["question"], q["options"], q["answer"]) for q in SAVE_QUIZ]
-    try:
-        with open(QUIZ_FILE, "r", encoding="utf-8") as file:
-            data = json.load(file)
-        return [QUIZ(q["question"], q["options"], q["answer"]) for q in data]
-    except json.JSONDecodeError:  # JSON이 깨졌을 때
-        print("데이터 파일이 손상되었습니다. 기본 데이터로 초기화합니다.")
-        return [QUIZ(q["question"], q["options"], q["answer"]) for q in SAVE_QUIZ]
+class QuizGame:
+    def __init__(self):
+        self.quiz_list = self.load_quizzes()  # 퀴즈 목록
+        self.high_score = 0                   # 최고 점수
+        if hasattr(signal, 'SIGTSTP'):
+            signal.signal(signal.SIGTSTP, signal.SIG_IGN)  # Ctrl+Z 무시
+    
+    def _load_state(self):
+        if not os.path.exists(QUIZ_FILE):
+            return {}
+        try:
+            with open(QUIZ_FILE, "r", encoding="utf-8") as file:
+                return json.load(file)
+        except json.JSONDecodeError:
+            return {}
 
-quiz_list = load_quizzes() 
+    def _save_state(self, state):
+        with open(QUIZ_FILE, "w", encoding="utf-8") as file:
+            json.dump(state, file, ensure_ascii=False, indent=4)
 
-#ctrl + z 방지
-if hasattr(signal, 'SIGTSTP'):
-    signal.signal(signal.SIGTSTP, signal.SIG_IGN)
+    # 파일 불러오기
+    def load_quizzes(self):
+        if not os.path.exists(QUIZ_FILE):
+            print("데이터 파일이 없어 기본 퀴즈 데이터를 사용합니다.")
+            return [QUIZ(q["question"], q["options"], q["answer"]) for q in SAVE_QUIZ]
+        try:
+            with open(QUIZ_FILE, "r", encoding="utf-8") as file:
+                data = json.load(file)
+            return [QUIZ(q["question"], q["options"], q["answer"]) for q in data["quizzes"]]
+        except (json.JSONDecodeError, KeyError):
+            print("데이터 파일이 손상되었습니다. 기본 데이터로 초기화합니다.")
+            return [QUIZ(q["question"], q["options"], q["answer"]) for q in SAVE_QUIZ]
 
-score = 0
+    # 파일 저장
+    def save_score(self, score, total):
+        if score > self.high_score:
+            self.high_score = score
+        state = self._load_state()
+        state["last_score"] = f"{score}/{total}"
+        state["high_score"] = self.high_score
+        self._save_state(state)
 
-# 퀴즈 프로그램 시작
-try:
-    while True:
+
+    def load_score(self):
+        state = self._load_state()
+        return state if "last_score" in state else None
+
+    # 메뉴 표시
+    def show_menu(self):
         print("퀴즈 프로그램을 시작합니다. 메뉴를 골라주세요.")
-        user_input = input("1. 퀴즈 시작 2. 퀴즈 추가 3. 퀴즈 목록 4. 점수 확인 5. 종료\n선택(숫자입력): ")   
+        return input("1. 퀴즈 시작 2. 퀴즈 추가 3. 퀴즈 목록 4. 점수 확인 5. 종료\n선택(숫자입력): ")
 
-        menu = QUIZ_GAME(
-        startquiz=user_input == "1",
-        addquiz=user_input == "2",
-        quizlist=user_input == "3",
-        scorecheck=user_input == "4",
-        quit=user_input == "5"
-        ) 
-
-        if menu.startquiz:
-            score = 0
-
-        #1. 퀴즈시작
-        if menu.startquiz:
-            print("퀴즈를 시작합니다! O 또는 X로 답해주세요.")
-            print("=" * 40)
-
-            score = 0
-            for q in quiz_list:
-                print(f"Q: {q.question}")
-                for i, option in enumerate(q.options, 1):
-                    print(f"  {i}. {option}")  # 선택지 출력
-
-                while True:
-                    user_input = input("A (1~4): ").strip()
-                    if user_input in ["1", "2", "3", "4"]:
-                        break
-                    print("1~4 중에서 입력해주세요.")
-
-                if user_input == q.answer:
-                    print("✅ 정답")
-                    score += 1
-                else:
-                    print(f"❌ 오답. 정답은 {q.answer}번 {q.options[int(q.answer)-1]}입니다.")
-                print("-" * 40)
-
-            print(f"퀴즈 종료. 총점: {score}/{len(quiz_list)}")
-            save_score(score, len(quiz_list))
-
-        #2. 퀴즈 추가
-        elif menu.addquiz:
-            question = input("퀴즈 질문을 입력하세요: ").strip()
-            options = []
-            for i in range(1, 5):
-                option = input(f"{i}번 선택지: ").strip()
-                options.append(option)
-            
+    # 퀴즈 풀기
+    def start_quiz(self):
+        score = 0
+        for q in self.quiz_list:
+            print(f"Q: {q.question}")
+            for i, option in enumerate(q.options, 1):
+                print(f"  {i}. {option}")
             while True:
-                answer = input("정답 번호 (1~4): ").strip()
-                if answer in ["1", "2", "3", "4"]:
+                user_input = input("A (1~4): ").strip()
+                if user_input in ["1", "2", "3", "4"]:
                     break
                 print("1~4 중에서 입력해주세요.")
+            if user_input == q.answer:
+                print("✅ 정답")
+                score += 1
+            else:
+                print(f"❌ 오답. 정답은 {q.answer}번 {q.options[int(q.answer)-1]}입니다.")
+        print(f"퀴즈 종료. 총점: {score}/{len(self.quiz_list)}")
+        self.save_score(score, len(self.quiz_list))
 
-            quiz_list.append(QUIZ(question, options, answer))
-            with open(QUIZ_FILE, "w", encoding="utf-8") as file:
-                json.dump([{"question": q.question, "options": q.options, "answer": q.answer} for q in quiz_list], file, ensure_ascii=False, indent=4)
-            print("퀴즈가 추가되었습니다.")
+    # 퀴즈 추가
+    def add_quiz(self):
+        question = input("퀴즈 질문을 입력하세요: ").strip()
+        options = []
+        for i in range(1, 5):
+            option = input(f"{i}번 선택지: ").strip()
+            options.append(option)
+        while True:
+            answer = input("정답 번호 (1~4): ").strip()
+            if answer in ["1", "2", "3", "4"]:
+                break
+            print("1~4 중에서 입력해주세요.")
+        self.quiz_list.append(QUIZ(question, options, answer))
+        state = self._load_state()
+        state["quizzes"] = [{"question": q.question, "options": q.options, "answer": q.answer} for q in self.quiz_list]
+        self._save_state(state)
+        print("퀴즈가 추가되었습니다.") 
 
-        #3. 퀴즈 목록
-        elif menu.quizlist:
-            print("======== 등록 된 퀴즈 목록 =======")
-            for i, q in enumerate(quiz_list, 1):
-                print(f"{i}. {q.question} (정답: {q.answer})")
-            print("===========================")
+    # 퀴즈 목록
+    def show_quiz_list(self):
+        print("======== 등록 된 퀴즈 목록 =======")
+        for i, q in enumerate(self.quiz_list, 1):
+            print(f"{i}. {q.question} (정답: {q.answer})")
+        print("===========================")
 
-        #4. 점수 확인
-        elif menu.scorecheck:
-            print(f"마지막으로 푼 퀴즈의 점수는 {load_score()}입니다.")
+    # 점수 확인
+    def show_score(self):
+        data = self.load_score()
+        if data:
+            print(f"마지막 점수: {data['last_score']}, 최고 점수: {data.get('high_score', 0)}")
+        else:
+            print("저장된 점수가 없습니다.")
+    
+    def run(self):
+        try:
+            while True:
+                user_input = self.show_menu()
+                if user_input == "1":
+                    self.start_quiz()
+                elif user_input == "2":
+                    self.add_quiz()
+                elif user_input == "3":
+                    self.show_quiz_list()
+                elif user_input == "4":
+                    self.show_score()
+                elif user_input == "5":
+                    print("퀴즈 프로그램을 종료합니다.")
+                    break
+        except KeyboardInterrupt:
+            print("\n프로그램을 종료합니다.")
+        except EOFError:
+            print("\n입력이 종료되어 프로그램을 종료합니다.")
 
-        #5. 종료
-        elif menu.quit:
-            print("퀴즈 프로그램을 종료합니다.")
-            break
-
-except KeyboardInterrupt:   # Ctrl+C
-    print("\n프로그램을 종료합니다.")
-
-except EOFError:            # Ctrl+D
-    print("\n입력이 종료되어 프로그램을 종료합니다.")
-
-finally:
-    # score가 정의됐을 때만 저장
-    if score > 0:
-        save_score(score, len(quiz_list))
+if __name__ == "__main__":
+    game = QuizGame()
+    game.run()  
