@@ -178,6 +178,8 @@ class QuizGame:
             print("\n프로그램을 종료합니다.")
         except EOFError:
             print("\n입력이 종료되어 프로그램을 종료합니다.")
+        finally:
+            self.save_state()
 
 game = QuizGame()
 game.run()  
