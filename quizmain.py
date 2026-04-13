@@ -54,7 +54,7 @@ class QuizGame:
         if hasattr(signal, 'SIGTSTP'):
             signal.signal(signal.SIGTSTP, signal.SIG_IGN)  # Ctrl+Z 무시
     
-    def _load_state(self):
+    def load_state(self):
         if not os.path.exists(QUIZ_FILE):
             return {}
         try:
@@ -63,7 +63,7 @@ class QuizGame:
         except json.JSONDecodeError:
             return {}
 
-    def _save_state(self, state):
+    def save_state(self, state):
         with open(QUIZ_FILE, "w", encoding="utf-8") as file:
             json.dump(state, file, ensure_ascii=False, indent=4)
 
@@ -84,14 +84,14 @@ class QuizGame:
     def save_score(self, score, total):
         if score > self.high_score:
             self.high_score = score
-        state = self._load_state()
+        state = self.load_state()
         state["last_score"] = f"{score}/{total}"
         state["high_score"] = self.high_score
-        self._save_state(state)
+        self.save_state(state)
 
 
     def load_score(self):
-        state = self._load_state()
+        state = self.load_state()
         return state if "last_score" in state else None
 
     # 메뉴 표시
@@ -139,9 +139,9 @@ class QuizGame:
                 break
             print("1~4 중에서 입력해주세요.")
         self.quiz_list.append(QUIZ(question, options, answer))
-        state = self._load_state()
+        state = self.load_state()
         state["quizzes"] = [{"question": q.question, "options": q.options, "answer": q.answer} for q in self.quiz_list]
-        self._save_state(state)
+        self.save_state(state)
         print("퀴즈가 추가되었습니다.") 
 
     # 퀴즈 목록
@@ -179,6 +179,5 @@ class QuizGame:
         except EOFError:
             print("\n입력이 종료되어 프로그램을 종료합니다.")
 
-if __name__ == "__main__":
-    game = QuizGame()
-    game.run()  
+game = QuizGame()
+game.run()  
