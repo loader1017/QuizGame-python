@@ -8,6 +8,14 @@ class QUIZ:
         self.options = options
         self.answer = answer
 
+    def display(self):  # 퀴즈 출력 메서드
+        print(f"Q: {self.question}")
+        for i, option in enumerate(self.options, 1):
+            print(f"  {i}. {option}")
+
+    def check_answer(self, user_input):  # 정답 확인 메서드
+        return user_input == self.answer
+
 QUIZ_FILE = "state.json"  # 퀴즈 데이터 파일
 
 #퀴즈 데이터가 없을 때 사용할 기본 퀴즈 데이터
@@ -88,22 +96,29 @@ class QuizGame:
 
     # 메뉴 표시
     def show_menu(self):
-        print("퀴즈 프로그램을 시작합니다. 메뉴를 골라주세요.")
-        return input("1. 퀴즈 시작 2. 퀴즈 추가 3. 퀴즈 목록 4. 점수 확인 5. 종료\n선택(숫자입력): ")
-
+        while True:
+            user_input = input("1. 퀴즈 시작 2. 퀴즈 추가 3. 퀴즈 목록 4. 점수 확인 5. 종료\n선택(숫자입력): ").strip()
+            if user_input == "":
+                print("올바른 번호를 입력해주세요. (1~5)")
+            elif user_input not in ["1", "2", "3", "4", "5"]:
+                print("올바른 번호를 입력해주세요. (1~5)")
+            else:
+                return user_input
+    
     # 퀴즈 풀기
     def start_quiz(self):
+        if not self.quiz_list:
+            print("등록된 퀴즈가 없습니다.")
+            return
         score = 0
         for q in self.quiz_list:
-            print(f"Q: {q.question}")
-            for i, option in enumerate(q.options, 1):
-                print(f"  {i}. {option}")
+            q.display()
             while True:
                 user_input = input("A (1~4): ").strip()
                 if user_input in ["1", "2", "3", "4"]:
                     break
                 print("1~4 중에서 입력해주세요.")
-            if user_input == q.answer:
+            if q.check_answer(user_input):
                 print("✅ 정답")
                 score += 1
             else:
